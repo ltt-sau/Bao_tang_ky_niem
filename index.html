@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -27,7 +26,7 @@
     }
     .container {
       width: 100%;
-      max-width: 580px;
+      max-width: 540px;
       background: var(--card-bg);
       padding: 32px;
       border-radius: 20px;
@@ -75,14 +74,13 @@
       cursor: pointer;
       transition: 0.2s;
     }
-    button:hover { opacity: 0.9; transform: translateY(-1px); }
+    button:hover { opacity: 0.9; }
     .error-msg {
       color: #ef4444;
       font-size: 13px;
       margin-top: 10px;
       display: none;
     }
-    /* Giao diện triển lãm sau khi mở khóa */
     #gallery-view { display: none; text-align: left; }
     .exhibit-title {
       font-family: 'Playfair Display', serif;
@@ -108,7 +106,7 @@
     }
     .photo-frame img {
       width: 100%;
-      height: 280px;
+      max-height: 360px;
       object-fit: cover;
       display: block;
     }
@@ -134,53 +132,65 @@
 <body>
 
   <div class="container">
-    <!-- Màn hình nhập mã khóa -->
     <div id="login-view">
       <h1>🏛️ Bảo Tàng Kỷ Niệm</h1>
       <p class="subtitle">Nhập mã vé bí mật để mở gian phòng tri ân của riêng bạn</p>
-      <input type="text" id="pass-input" placeholder="Ví dụ: meyeu, banthan...">
+      <input type="text" id="pass-input" placeholder="Nhập mã vé...">
       <button onclick="unlockRoom()">Mở Cổng Triển Lãm</button>
       <p class="error-msg" id="error-msg">Mã vé chưa chính xác, hãy thử lại nhé!</p>
     </div>
 
-    <!-- Màn hình hiển thị gian phòng cá nhân -->
     <div id="gallery-view">
       <h2 class="exhibit-title" id="guest-name">Tên Người Nhận</h2>
-      <span class="role-badge" id="guest-role">Vai trò đặc biệt</span>
+      <span class="role-badge" id="guest-role">Vai trò</span>
       
       <div class="photo-frame">
         <img id="guest-photo" src="" alt="Kỷ niệm">
       </div>
 
-      <div class="letter-box" id="guest-letter">
-        Nội dung tâm thư...
-      </div>
+      <div class="letter-box" id="guest-letter">Nội dung...</div>
 
       <button class="back-btn" onclick="goBack()">← Đổi mã khác</button>
+    </div>
+  </div>
+
   <script>
     const guestData = {
       "meyeu": {
         name: "Gửi Mẹ Yêu",
         role: "Hậu phương vững chắc nhất",
-        photo: "IMG_3519.jpeg", "DSCF0749.jpeg"
-        letter: "Con cảm ơn Mẹ vì 4 năm qua luôn là chỗ dựa bình yên nhất của con. Tấm bằng đại học này là món quà con dành tặng riêng cho sự hy sinh của Mẹ!"
+        photo: "IMG_3519.jpeg",
+        letter: "Con cảm ơn Mẹ vì 4 năm qua luôn là chỗ dựa bình yên nhất của con. Tấm bằng tốt nghiệp này là món quà con dành tặng riêng cho sự hy sinh của Mẹ!"
       },
       "bo2026": {
         name: "Gửi Bố",
         role: "Điểm tựa kiên cường",
-        photo: "bo.jpg",
+        photo: "IMG_3520.jpeg",
         letter: "Cảm ơn Bố vì những lời dạy và sự động viên thầm lặng. Con đã hoàn thành chặng đường đại học và sẵn sàng bước tiếp!"
       },
-      "nhimu": {
-        name: "Linh 'Tạp Hóa'",
-        role: "Chiến hữu cùng phòng",
-        photo: "linh.jpg",
-        letter: "Cảm ơn mày vì những đêm thức chạy deadline cùng nhau, những bát mì gói lúc 2h sáng. Tốt nghiệp rực rỡ nhé bạn tôi!"
+      "nguoi1": {
+        name: "Gửi Bạn Thân",
+        role: "Chiến hữu đồng hành",
+        photo: "IMG_2961.jpeg",
+        letter: "Cảm ơn vì đã luôn sát cánh cùng nhau qua những mùa thi cử và deadline!"
+      },
+      "nguoi2": {
+        name: "Người Bạn Đặc Biệt",
+        role: "Kỷ niệm thanh xuân",
+        photo: "DSCF0749.jpeg",
+        letter: "Thanh xuân đại học thật rực rỡ vì có sự đồng hành của bạn!"
+      },
+      "nguoi3": {
+        name: "Gia Đình Thân Yêu",
+        role: "Nguồn động lực vô giá",
+        photo: "IMG_5584.jpeg",
+        letter: "Cảm ơn mọi người vì luôn tin tưởng và ủng hộ mọi quyết định của con!"
       }
     };
 
     function unlockRoom() {
-      const code = document.getElementById('pass-input').value.trim().toLowerCase();
+      const inputEl = document.getElementById('pass-input');
+      const code = inputEl.value.trim().toLowerCase();
       const errorMsg = document.getElementById('error-msg');
       
       if (guestData[code]) {
@@ -208,8 +218,3 @@
 </body>
 </html>
 
-Bước 4: Cách trao tặng tạo bất ngờ
- * In thiệp vật lý: In một chiếc "Vé tham quan bảo tàng" nhỏ kích thước thẻ ATM.
- * Mặt trước: Tên người nhận + Mã vé (ví dụ: Code: meyeu).
- * Mặt sau: Mã QR dẫn thẳng đến link GitHub Pages của bạn.
- * Khi người thân quét mã và nhập passcode trên thiệp, không gian tri ân riêng sẽ mở ra ngay trên điện thoại của họ.
