@@ -4,217 +4,320 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bảo Tàng Kỷ Niệm - Graduation</title>
+  <!-- Font chữ sang trọng -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f172a;
-      --card-bg: #1e293b;
+      --bg: #0b0f19;
+      --card-bg: rgba(30, 41, 59, 0.75);
       --accent: #f59e0b;
+      --accent-glow: rgba(245, 158, 11, 0.3);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: var(--bg);
+      background: radial-gradient(circle at top center, #1e1b4b, #0f172a 60%, #020617);
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      padding: 24px 16px;
+      overflow-x: hidden;
+      position: relative;
     }
+
+    /* Hiệu ứng ánh sáng nền mờ ảo */
+    .glow-sphere {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, rgba(0,0,0,0) 70%);
+      top: 10%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
     .container {
+      position: relative;
+      z-index: 1;
       width: 100%;
-      max-width: 540px;
+      max-width: 500px;
       background: var(--card-bg);
-      padding: 32px;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 32px 24px;
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 25px rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       text-align: center;
+      animation: fadeIn 0.8s ease-out;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Khung ảnh đại diện chủ nhân tốt nghiệp */
+    .avatar-wrapper {
+      position: relative;
+      width: 110px;
+      height: 110px;
+      margin: 0 auto 16px auto;
+    }
+    .avatar-wrapper img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .cap-tag {
+      position: absolute;
+      bottom: -6px;
+      right: 50%;
+      transform: translateX(50%);
+      background: #0f172a;
+      border: 1px solid var(--accent);
+      border-radius: 20px;
+      padding: 2px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
     h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 26px;
+      font-size: 24px;
       color: var(--accent);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
     }
     p.subtitle {
-      font-size: 14px;
+      font-size: 13.5px;
       color: var(--text-muted);
+      line-height: 1.5;
       margin-bottom: 24px;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
     }
     input {
       width: 100%;
-      padding: 14px 16px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.15);
-      background: #0f172a;
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(15, 23, 42, 0.8);
       color: #fff;
       font-size: 15px;
       text-align: center;
-      margin-bottom: 16px;
+      letter-spacing: 1px;
       outline: none;
-      transition: 0.2s;
+      transition: all 0.3s;
     }
     input:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 10px rgba(245,158,11,0.2);
+      box-shadow: 0 0 15px var(--accent-glow);
+      background: rgba(15, 23, 42, 0.95);
     }
-    button {
+    button.btn-primary {
       width: 100%;
       padding: 14px;
-      border-radius: 12px;
+      border-radius: 14px;
       border: none;
-      background: var(--accent);
-      color: #000;
-      font-weight: 600;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #0f172a;
+      font-weight: 700;
       font-size: 15px;
       cursor: pointer;
-      transition: 0.2s;
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.25);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    button:hover { opacity: 0.9; }
+    button.btn-primary:active { transform: scale(0.98); }
+    
     .error-msg {
-      color: #ef4444;
+      color: #f87171;
       font-size: 13px;
-      margin-top: 10px;
+      margin-top: 12px;
       display: none;
     }
-    #gallery-view { display: none; text-align: left; }
+
+    /* GIAO DIỆN PHÒNG TRIỂN LÃM */
+    #gallery-view {
+      display: none;
+      text-align: left;
+      animation: fadeIn 0.6s ease;
+    }
+    .exhibit-header {
+      text-align: center;
+      margin-bottom: 16px;
+    }
     .exhibit-title {
       font-family: 'Playfair Display', serif;
       font-size: 22px;
       color: var(--accent);
-      margin-bottom: 6px;
-      text-align: center;
+      margin-bottom: 4px;
     }
     .role-badge {
-      display: block;
-      text-align: center;
+      display: inline-block;
       font-size: 12px;
       text-transform: uppercase;
       letter-spacing: 1px;
       color: var(--text-muted);
-      margin-bottom: 20px;
+      background: rgba(255,255,255,0.05);
+      padding: 3px 10px;
+      border-radius: 12px;
     }
     .photo-frame {
-      border-radius: 12px;
+      border-radius: 16px;
       overflow: hidden;
-      margin-bottom: 20px;
-      border: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      background: #020617;
     }
     .photo-frame img {
       width: 100%;
-      max-height: 360px;
+      max-height: 380px;
       object-fit: cover;
       display: block;
     }
     .letter-box {
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(15, 23, 42, 0.7);
       padding: 20px;
-      border-radius: 12px;
+      border-radius: 14px;
       font-size: 14.5px;
       line-height: 1.7;
-      color: #cbd5e1;
+      color: #e2e8f0;
       white-space: pre-line;
-      border-left: 3px solid var(--accent);
+      border-left: 4px solid var(--accent);
     }
-    .back-btn {
+    .btn-secondary {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
       background: transparent;
-      border: 1px solid rgba(255,255,255,0.2);
       color: var(--text-muted);
-      margin-top: 20px;
+      font-size: 14px;
+      margin-top: 18px;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-    .back-btn:hover { background: rgba(255,255,255,0.05); color: #fff; }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+    }
   </style>
 </head>
 <body>
 
+  <div class="glow-sphere"></div>
+
   <div class="container">
+    <!-- 1. SẢNH CHỜ (LOBBY) CÓ ẢNH VÀ LỜI CHÀO -->
     <div id="login-view">
-      <h1>🏛️ Bảo Tàng Kỷ Niệm</h1>
-      <p class="subtitle">Nhập mã vé bí mật để mở gian phòng tri ân của riêng bạn</p>
-      <input type="text" id="pass-input" placeholder="Nhập mã vé...">
-      <button onclick="unlockRoom()">Mở Cổng Triển Lãm</button>
-      <p class="error-msg" id="error-msg">Mã vé chưa chính xác, hãy thử lại nhé!</p>
+      <div class="avatar-wrapper">
+        <!-- Thay ảnh đại diện của bạn ở đây -->
+        <img src="IMG_5584.jpeg" alt="Ảnh của bạn">
+        <span class="cap-tag">🎓 Tân Cử Nhân</span>
+      </div>
+
+      <h1>Bảo Tàng Kỷ Niệm</h1>
+      <p class="subtitle">Chào mừng bạn đến với không gian tri ân tốt nghiệp đại học.<br>Hãy nhập mã vé để mở gian phòng của bạn nhé!</p>
+
+      <div class="input-group">
+        <input type="text" id="pass-input" placeholder="Nhập mã vé bí mật..." autocomplete="off">
+      </div>
+      <button class="btn-primary" id="btn-open" type="button">Mở Cổng Triển Lãm</button>
+      <p class="error-msg" id="error-msg">Mã vé chưa chính xác, thử lại nhé!</p>
     </div>
 
+    <!-- 2. PHÒNG KỶ NIỆM RIÊNG TƯ -->
     <div id="gallery-view">
-      <h2 class="exhibit-title" id="guest-name">Tên Người Nhận</h2>
-      <span class="role-badge" id="guest-role">Vai trò</span>
+      <div class="exhibit-header">
+        <h2 class="exhibit-title" id="guest-name"></h2>
+        <span class="role-badge" id="guest-role"></span>
+      </div>
       
       <div class="photo-frame">
         <img id="guest-photo" src="" alt="Kỷ niệm">
       </div>
 
-      <div class="letter-box" id="guest-letter">Nội dung...</div>
+      <div class="letter-box" id="guest-letter"></div>
 
-      <button class="back-btn" onclick="goBack()">← Đổi mã khác</button>
+      <button class="btn-secondary" id="btn-back" type="button">← Nhập mã khác</button>
     </div>
   </div>
 
   <script>
-    const guestData = {
+    // Dữ liệu từng phòng
+    var guestData = {
       "meyeu": {
         name: "Gửi Mẹ Yêu",
         role: "Hậu phương vững chắc nhất",
         photo: "IMG_3519.jpeg",
-        letter: "Con cảm ơn Mẹ vì 4 năm qua luôn là chỗ dựa bình yên nhất của con. Tấm bằng tốt nghiệp này là món quà con dành tặng riêng cho sự hy sinh của Mẹ!"
+        letter: "Con cảm ơn Mẹ vì 4 năm qua luôn là chỗ dựa bình yên nhất của con. Tấm bằng tốt nghiệp này là món quà con dành tặng riêng cho sự hy sinh và tình yêu thương của Mẹ!"
       },
       "bo2026": {
         name: "Gửi Bố",
         role: "Điểm tựa kiên cường",
         photo: "IMG_3520.jpeg",
-        letter: "Cảm ơn Bố vì những lời dạy và sự động viên thầm lặng. Con đã hoàn thành chặng đường đại học và sẵn sàng bước tiếp!"
+        letter: "Cảm ơn Bố vì những lời dạy bảo nghiêm khắc và sự động viên thầm lặng. Con đã hoàn thành chặng đường đại học và sẵn sàng bước tiếp!"
       },
       "nguoi1": {
         name: "Gửi Bạn Thân",
         role: "Chiến hữu đồng hành",
         photo: "IMG_2961.jpeg",
-        letter: "Cảm ơn vì đã luôn sát cánh cùng nhau qua những mùa thi cử và deadline!"
+        letter: "Cảm ơn vì đã luôn sát cánh cùng nhau qua những mùa thi cử và deadline. Tốt nghiệp rực rỡ nhé!"
       },
       "nguoi2": {
         name: "Người Bạn Đặc Biệt",
         role: "Kỷ niệm thanh xuân",
         photo: "DSCF0749.jpeg",
-        letter: "Thanh xuân đại học thật rực rỡ vì có sự đồng hành của bạn!"
+        letter: "Thanh xuân đại học thật rực rỡ và đáng nhớ vì có sự xuất hiện của bạn!"
       },
       "nguoi3": {
         name: "Gia Đình Thân Yêu",
         role: "Nguồn động lực vô giá",
         photo: "IMG_5584.jpeg",
-        letter: "Cảm ơn mọi người vì luôn tin tưởng và ủng hộ mọi quyết định của con!"
+        letter: "Cảm ơn mọi người vì luôn tin tưởng và đồng hành cùng con trong suốt hành trình vừa qua!"
       }
     };
 
-    function unlockRoom() {
-      const inputEl = document.getElementById('pass-input');
-      const code = inputEl.value.trim().toLowerCase();
-      const errorMsg = document.getElementById('error-msg');
-      
+    // Sự kiện nút mở phòng
+    document.getElementById("btn-open").onclick = function() {
+      var code = document.getElementById("pass-input").value.trim().toLowerCase();
+      var err = document.getElementById("error-msg");
+
       if (guestData[code]) {
-        errorMsg.style.display = 'none';
-        const data = guestData[code];
+        err.style.display = "none";
+        var d = guestData[code];
         
-        document.getElementById('guest-name').innerText = data.name;
-        document.getElementById('guest-role').innerText = data.role;
-        document.getElementById('guest-photo').src = data.photo;
-        document.getElementById('guest-letter').innerText = data.letter;
+        document.getElementById("guest-name").innerText = d.name;
+        document.getElementById("guest-role").innerText = d.role;
+        document.getElementById("guest-photo").src = d.photo;
+        document.getElementById("guest-letter").innerText = d.letter;
 
-        document.getElementById('login-view').style.display = 'none';
-        document.getElementById('gallery-view').style.display = 'block';
+        document.getElementById("login-view").style.display = "none";
+        document.getElementById("gallery-view").style.display = "block";
       } else {
-        errorMsg.style.display = 'block';
+        err.style.display = "block";
       }
-    }
+    };
 
-    function goBack() {
-      document.getElementById('pass-input').value = '';
-      document.getElementById('gallery-view').style.display = 'none';
-      document.getElementById('login-view').style.display = 'block';
-    }
+    // Sự kiện nút quay lại sảnh
+    document.getElementById("btn-back").onclick = function() {
+      document.getElementById("pass-input").value = "";
+      document.getElementById("gallery-view").style.display = "none";
+      document.getElementById("login-view").style.display = "block";
+    };
   </script>
 </body>
 </html>
-
