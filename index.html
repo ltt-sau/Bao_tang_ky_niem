@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bảo Tàng Kỷ Niệm - Graduation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --accent: #f59e0b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .container {
+      width: 100%;
+      max-width: 580px;
+      background: var(--card-bg);
+      padding: 32px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    p.subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: #0f172a;
+      color: #fff;
+      font-size: 15px;
+      text-align: center;
+      margin-bottom: 16px;
+      outline: none;
+      transition: 0.2s;
+    }
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px rgba(245,158,11,0.2);
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      background: var(--accent);
+      color: #000;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    button:hover { opacity: 0.9; transform: translateY(-1px); }
+    .error-msg {
+      color: #ef4444;
+      font-size: 13px;
+      margin-top: 10px;
+      display: none;
+    }
+    /* Giao diện triển lãm sau khi mở khóa */
+    #gallery-view { display: none; text-align: left; }
+    .exhibit-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--accent);
+      margin-bottom: 6px;
+      text-align: center;
+    }
+    .role-badge {
+      display: block;
+      text-align: center;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .photo-frame {
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .photo-frame img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+    }
+    .letter-box {
+      background: rgba(15, 23, 42, 0.6);
+      padding: 20px;
+      border-radius: 12px;
+      font-size: 14.5px;
+      line-height: 1.7;
+      color: #cbd5e1;
+      white-space: pre-line;
+      border-left: 3px solid var(--accent);
+    }
+    .back-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--text-muted);
+      margin-top: 20px;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.05); color: #fff; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Màn hình nhập mã khóa -->
+    <div id="login-view">
+      <h1>🏛️ Bảo Tàng Kỷ Niệm</h1>
+      <p class="subtitle">Nhập mã vé bí mật để mở gian phòng tri ân của riêng bạn</p>
+      <input type="text" id="pass-input" placeholder="Ví dụ: meyeu, banthan...">
+      <button onclick="unlockRoom()">Mở Cổng Triển Lãm</button>
+      <p class="error-msg" id="error-msg">Mã vé chưa chính xác, hãy thử lại nhé!</p>
+    </div>
+
+    <!-- Màn hình hiển thị gian phòng cá nhân -->
+    <div id="gallery-view">
+      <h2 class="exhibit-title" id="guest-name">Tên Người Nhận</h2>
+      <span class="role-badge" id="guest-role">Vai trò đặc biệt</span>
+      
+      <div class="photo-frame">
+        <img id="guest-photo" src="" alt="Kỷ niệm">
+      </div>
+
+      <div class="letter-box" id="guest-letter">
+        Nội dung tâm thư...
+      </div>
+
+      <button class="back-btn" onclick="goBack()">← Đổi mã khác</button>
+  <script>
+    const guestData = {
+      "meyeu": {
+        name: "Gửi Mẹ Yêu",
+        role: "Hậu phương vững chắc nhất",
+        photo: "me.jpg", // Tên file ảnh đã tải lên GitHub
+        letter: "Con cảm ơn Mẹ vì 4 năm qua luôn là chỗ dựa bình yên nhất của con. Tấm bằng đại học này là món quà con dành tặng riêng cho sự hy sinh của Mẹ!"
+      },
+      "bo2026": {
+        name: "Gửi Bố",
+        role: "Điểm tựa kiên cường",
+        photo: "bo.jpg",
+        letter: "Cảm ơn Bố vì những lời dạy và sự động viên thầm lặng. Con đã hoàn thành chặng đường đại học và sẵn sàng bước tiếp!"
+      },
+      "nhimu": {
+        name: "Linh 'Tạp Hóa'",
+        role: "Chiến hữu cùng phòng",
+        photo: "linh.jpg",
+        letter: "Cảm ơn mày vì những đêm thức chạy deadline cùng nhau, những bát mì gói lúc 2h sáng. Tốt nghiệp rực rỡ nhé bạn tôi!"
+      }
+    };
+
+    function unlockRoom() {
+      const code = document.getElementById('pass-input').value.trim().toLowerCase();
+      const errorMsg = document.getElementById('error-msg');
+      
+      if (guestData[code]) {
+        errorMsg.style.display = 'none';
+        const data = guestData[code];
+        
+        document.getElementById('guest-name').innerText = data.name;
+        document.getElementById('guest-role').innerText = data.role;
+        document.getElementById('guest-photo').src = data.photo;
+        document.getElementById('guest-letter').innerText = data.letter;
+
+        document.getElementById('login-view').style.display = 'none';
+        document.getElementById('gallery-view').style.display = 'block';
+      } else {
+        errorMsg.style.display = 'block';
+      }
+    }
+
+    function goBack() {
+      document.getElementById('pass-input').value = '';
+      document.getElementById('gallery-view').style.display = 'none';
+      document.getElementById('login-view').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
+
+Bước 4: Cách trao tặng tạo bất ngờ
+ * In thiệp vật lý: In một chiếc "Vé tham quan bảo tàng" nhỏ kích thước thẻ ATM.
+ * Mặt trước: Tên người nhận + Mã vé (ví dụ: Code: meyeu).
+ * Mặt sau: Mã QR dẫn thẳng đến link GitHub Pages của bạn.
+ * Khi người thân quét mã và nhập passcode trên thiệp, không gian tri ân riêng sẽ mở ra ngay trên điện thoại của họ.
